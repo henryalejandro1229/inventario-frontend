@@ -1,0 +1,6 @@
+.login-page { min-height: 100%; display: grid; place-items: center; padding: 24px; background: linear-gradient(135deg, #e8f0fe, #f8f9fb); }
+.login-card { width: min(100%, 420px); padding: 12px; }
+mat-card-header { align-items: center; gap: 12px; margin-bottom: 20px; }
+mat-card-header mat-icon { color: #0b57d0; transform: scale(1.35); }
+form { display: grid; gap: 6px; }
+mat-form-field, button[type='submit'] { width: 100%; }

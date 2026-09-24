@@ -1,0 +1,8 @@
+.reportes-page { display: grid; gap: 24px; }
+.page-header h1 { margin: 0; }
+.page-header p { color: #5f6368; margin: 6px 0 0; }
+.report-card { padding: 32px; max-width: 480px; display: grid; justify-items: start; gap: 8px; }
+.report-card mat-icon { transform: scale(1.8); color: #214985; margin-bottom: 8px; }
+.report-card h2 { margin: 0; }
+.report-card p { color: #5f6368; margin: 0 0 12px; }
+.report-card button mat-icon { transform: none; color: inherit; margin-right: 4px; }

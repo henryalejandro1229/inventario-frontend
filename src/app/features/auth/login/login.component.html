@@ -1,0 +1,30 @@
+<main class="login-page">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-icon aria-hidden="true">inventory_2</mat-icon>
+      <div>
+        <mat-card-title>Inventario de activos</mat-card-title>
+        <mat-card-subtitle>Ingresa para continuar</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="username" autocomplete="username" />
+          @if (form.controls.username.hasError('required') && form.controls.username.touched) { <mat-error>El usuario es obligatorio.</mat-error> }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="current-password" />
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'">
+            <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+          @if (form.controls.password.hasError('required') && form.controls.password.touched) { <mat-error>La contraseña es obligatoria.</mat-error> }
+          @if (form.controls.password.hasError('minlength') && form.controls.password.touched) { <mat-error>Debe tener al menos 3 caracteres.</mat-error> }
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting">Iniciar sesión</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</main>

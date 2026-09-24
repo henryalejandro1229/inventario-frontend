@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h2 class="modal-title">{{ isEditMode ? 'Editar activo' : 'Nuevo activo' }}</h2>
+  <button mat-icon-button type="button" aria-label="Cerrar" (click)="cerrar()"><mat-icon>close</mat-icon></button>
+</div>
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <div class="modal-body">
+    @if (isEditMode && activo) {
+      <div class="readonly-info">
+        <span><strong>Folio:</strong> {{ activo.folioInventario }}</span>
+        <span><strong>Fecha de ingreso:</strong> {{ activo.fechaIngreso | date:'dd/MM/yyyy' }}</span>
+      </div>
+    }
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Número de serie</mat-label>
+      <input matInput formControlName="numeroSerie" maxlength="100" />
+      @if (form.controls.numeroSerie.hasError('required') && form.controls.numeroSerie.touched) { <mat-error>El número de serie es obligatorio.</mat-error> }
+      @if (form.controls.numeroSerie.hasError('maxlength')) { <mat-error>Máximo 100 caracteres.</mat-error> }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Marca / Modelo</mat-label>
+      <input matInput formControlName="marcaModelo" maxlength="150" />
+      @if (form.controls.marcaModelo.hasError('required') && form.controls.marcaModelo.touched) { <mat-error>La marca/modelo es obligatoria.</mat-error> }
+      @if (form.controls.marcaModelo.hasError('maxlength')) { <mat-error>Máximo 150 caracteres.</mat-error> }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoriaId">
+        @for (categoria of categorias(); track categoria.id) { <mat-option [value]="categoria.id">{{ categoria.nombre }}</mat-option> }
+      </mat-select>
+      @if (form.controls.categoriaId.hasError('required') && form.controls.categoriaId.touched) { <mat-error>Selecciona una categoría.</mat-error> }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Costo de adquisición</mat-label>
+      <input matInput type="number" min="0" step="0.01" formControlName="costoAdquisicion" />
+      @if (form.controls.costoAdquisicion.hasError('required') && form.controls.costoAdquisicion.touched) { <mat-error>El costo de adquisición es obligatorio.</mat-error> }
+      @if (form.controls.costoAdquisicion.hasError('min')) { <mat-error>El costo no puede ser negativo.</mat-error> }
+    </mat-form-field>
+
+    @if (!isEditMode) {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Estado inicial</mat-label>
+        <mat-select formControlName="estado">
+          @for (estado of estadosIniciales; track estado) { <mat-option [value]="estado">{{ estadoLabel(estado) }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+    }
+  </div>
+  <div class="modal-footer">
+    <button mat-button type="button" class="modal-button modal-button-secondary" (click)="cerrar()">Cancelar</button>
+    <button mat-flat-button type="submit" class="modal-button modal-button-primary" [disabled]="form.invalid || isSaving()">{{ isSaving() ? 'Guardando...' : 'Guardar' }}</button>
+  </div>
+</form>

@@ -1,0 +1,21 @@
+h1 { margin: 0; }
+.intro { color: #5f6368; margin: 6px 0 24px; }
+.section-title { font-size: 1.1rem; margin: 32px 0 16px; color: #17365d; }
+
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 220px)); gap: 16px; }
+.stat-card { display: flex; align-items: center; gap: 16px; padding: 20px; }
+.stat-card mat-icon { color: #214985; transform: scale(1.6); }
+.stat-value { display: block; font-size: 1.6rem; font-weight: 600; color: #17365d; line-height: 1.2; }
+.stat-label { display: block; color: #5f6368; font-size: .85rem; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cards mat-card { padding: 20px; cursor: pointer; transition: box-shadow .15s ease; }
+.cards mat-card:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, .12); }
+.cards mat-icon { color: #0b57d0; }
+.cards h3 { font-size: 1.1rem; margin: 8px 0 4px; }
+.cards p { color: #5f6368; margin: 0; }
+
+@media (max-width: 700px) {
+  .stats { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+}

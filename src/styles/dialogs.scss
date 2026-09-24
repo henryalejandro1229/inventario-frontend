@@ -1,0 +1,21 @@
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e1e5eb;
+}
+
+.modal-title { margin: 0; color: var(--brand-marine); font-size: 1.25rem; font-weight: 600; }
+.modal-body { padding: 24px; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 24px 20px; border-top: 1px solid #e1e5eb; }
+
+.modal-button { min-width: 108px; }
+.modal-button-primary { --mdc-filled-button-container-color: var(--brand-marine); --mdc-filled-button-label-text-color: #fff; }
+.modal-button-secondary { --mdc-text-button-label-text-color: var(--brand-marine); }
+.modal-button-danger { --mdc-filled-button-container-color: #b3261e; --mdc-filled-button-label-text-color: #fff; }
+
+@media (max-width: 599px) {
+  .modal-header { padding: 16px 20px 14px; }.modal-body { padding: 20px; }.modal-footer { padding: 14px 20px 16px; flex-wrap: wrap; }.modal-footer .modal-button { flex: 1; }
+}
