@@ -1,14 +1,14 @@
 <section class="categorias-page">
   <div class="page-header">
-    <div><h1>Categorías</h1><p>Catálogo de categorías utilizadas para clasificar los activos.</p></div>
+    <div><span class="eyebrow">CLASIFICACIÓN</span><h1>Categorías</h1><p>Catálogo de categorías utilizadas para clasificar los activos.</p></div>
   </div>
 
   <mat-card class="table-card">
     @if (!isLoading() && categorias().length === 0) {
       <div class="empty-state"><mat-icon>category</mat-icon><h2>No hay categorías registradas</h2></div>
     } @else {
-      <div class="table-wrapper">
-        <table mat-table [dataSource]="categorias()">
+      <div class="table-container">
+        <table mat-table [dataSource]="categorias()" class="responsive-table">
           <ng-container matColumnDef="nombre"><th mat-header-cell *matHeaderCellDef>Nombre</th><td mat-cell *matCellDef="let categoria">{{ categoria.nombre }}</td></ng-container>
           <ng-container matColumnDef="codigoPrefijo"><th mat-header-cell *matHeaderCellDef>Prefijo</th><td mat-cell *matCellDef="let categoria">{{ categoria.codigoPrefijo }}</td></ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

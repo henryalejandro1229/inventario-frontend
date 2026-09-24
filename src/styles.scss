@@ -5,3 +5,7 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: #1f1f1f; }
 * { box-sizing: border-box; }
+
+.table-container { width: 100%; max-width: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+.responsive-table { width: 100%; min-width: 640px; }
+.responsive-table th, .responsive-table td { white-space: nowrap; }

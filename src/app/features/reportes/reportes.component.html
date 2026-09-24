@@ -1,10 +1,10 @@
 <section class="reportes-page">
   <div class="page-header">
-    <div><h1>Reportes</h1><p>Genera un reporte descargable con el detalle de los activos registrados.</p></div>
+    <div><span class="eyebrow">INFORMACIÓN</span><h1>Reportes</h1><p>Genera un reporte descargable con el detalle de los activos registrados.</p></div>
   </div>
 
   <mat-card class="report-card">
-    <mat-icon>assessment</mat-icon>
+    <div class="report-card-icon"><mat-icon>assessment</mat-icon></div>
     <h2>Reporte de activos</h2>
     <p>Incluye un archivo Excel con el detalle de todos los activos y una bitácora de auditoría, comprimidos en un archivo ZIP.</p>
     <button mat-flat-button color="primary" type="button" [disabled]="isGenerating()" (click)="generarReporte()">

@@ -14,7 +14,7 @@ import { Categoria } from '../../../../core/models/categoria.model';
 import { ActivoService } from '../../../../core/services/activo.service';
 import { CategoriaService } from '../../../../core/services/categoria.service';
 import { ESTADOS_ACTIVO, estadoLabel } from '../../../../shared/utils/estado.util';
-import { showLoading, showNotifyError, showNotifySuccess } from '../../../../shared/utils/sweetalert';
+import { showLoading, showNotifyError, showNotifySuccess } from '../../../../shared/Utilities';
 
 @Component({
   selector: 'app-activo-form-dialog',

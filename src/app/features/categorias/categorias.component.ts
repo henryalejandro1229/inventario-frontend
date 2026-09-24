@@ -6,7 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { finalize } from 'rxjs';
 import { Categoria } from '../../core/models/categoria.model';
 import { CategoriaService } from '../../core/services/categoria.service';
-import { showLoading, showNotifyError } from '../../shared/utils/sweetalert';
+import { showLoading, showNotifyError } from '../../shared/Utilities';
 
 @Component({
   selector: 'app-categorias',

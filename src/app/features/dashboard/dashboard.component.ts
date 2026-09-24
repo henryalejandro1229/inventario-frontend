@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { finalize, forkJoin } from 'rxjs';
 import { ActivoService } from '../../core/services/activo.service';
 import { CategoriaService } from '../../core/services/categoria.service';
-import { showLoading, showNotifyError } from '../../shared/utils/sweetalert';
+import { showLoading, showNotifyError } from '../../shared/Utilities';
 
 @Component({
   selector: 'app-dashboard',

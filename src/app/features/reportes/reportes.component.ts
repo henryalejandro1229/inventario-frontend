@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { finalize } from 'rxjs';
 import { ReporteService } from '../../core/services/reporte.service';
 import { base64ToBlob, downloadBlob } from '../../shared/utils/file-download.util';
-import { showLoading, showNotifyError, showNotifySuccess } from '../../shared/utils/sweetalert';
+import { showLoading, showNotifyError, showNotifySuccess } from '../../shared/Utilities';
 
 @Component({
   selector: 'app-reportes',

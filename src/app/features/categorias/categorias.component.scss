@@ -1,9 +1,12 @@
 .categorias-page { display: grid; gap: 24px; }
-.page-header h1 { margin: 0; }
+.eyebrow { color: #5681b9; font-size: .72rem; font-weight: 700; letter-spacing: .1em; }
+.page-header h1 { margin: 4px 0 0; color: #17365d; }
 .page-header p { color: #5f6368; margin: 6px 0 0; }
-.table-card { padding: 8px; }
-.table-wrapper { overflow-x: auto; }
-table { width: 100%; }
+.table-card { padding: 8px; border: 1px solid #d9e4f0; box-shadow: 0 2px 8px rgba(23, 54, 93, .06); }
+.table-container { border: 1px solid #e4eaf1; border-radius: 6px; }
+.table-container table { min-width: 420px; }
+.table-container th { background: #f4f7fa; color: #17365d; font-weight: 600; }
+.table-container tr.mat-mdc-row:hover { background: #f7faff; }
 .empty-state { min-height: 200px; display: grid; place-content: center; justify-items: center; text-align: center; color: #5f6368; }
 .empty-state mat-icon { transform: scale(2); color: #8098b9; margin-bottom: 20px; }
 .empty-state h2 { color: #303030; margin: 0; }

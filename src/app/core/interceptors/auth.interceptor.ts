@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { TokenStorageService } from '../services/token-storage.service';
-import { showNotifyError, showNotifyWarning } from '../../shared/utils/sweetalert';
+import { showNotifyError, showNotifyWarning } from '../../shared/Utilities';
 
 let isHandlingUnauthorized = false;
 let isHandlingForbidden = false;

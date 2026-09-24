@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../core/services/auth.service';
-import { showLoading, showNotifyError, showNotifySuccess } from '../../../shared/utils/sweetalert';
+import { showLoading, showNotifyError, showNotifySuccess } from '../../../shared/Utilities';
 
 @Component({
   selector: 'app-login',
