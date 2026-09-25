@@ -8,13 +8,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { finalize } from 'rxjs';
 import { Activo, ActivoRequest, EstadoActivo } from '../../../../core/models/activo.model';
 import { Categoria } from '../../../../core/models/categoria.model';
-import { ActivoService } from '../../../../core/services/activo.service';
 import { CategoriaService } from '../../../../core/services/categoria.service';
 import { ESTADOS_ACTIVO, estadoDotClass, estadoLabel } from '../../../../shared/utils/estado.util';
-import { showLoading, showNotifyError, showNotifySuccess } from '../../../../shared/Utilities';
+import { showNotifyError } from '../../../../shared/Utilities';
+
+export interface ActivoFormDialogResult {
+  activoId?: string;
+  request: ActivoRequest;
+}
 
 @Component({
   selector: 'app-activo-form-dialog',
@@ -25,13 +28,11 @@ import { showLoading, showNotifyError, showNotifySuccess } from '../../../../sha
 export class ActivoFormDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<ActivoFormDialogComponent>);
   private readonly formBuilder = inject(FormBuilder);
-  private readonly activoService = inject(ActivoService);
   private readonly categoriaService = inject(CategoriaService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly activo = inject<Activo | null>(MAT_DIALOG_DATA);
   readonly isEditMode = this.activo !== null;
-  readonly isSaving = signal(false);
   readonly categorias = signal<Categoria[]>([]);
   readonly estadosIniciales: EstadoActivo[] = ESTADOS_ACTIVO;
   readonly estadoDotClass = estadoDotClass;
@@ -70,20 +71,9 @@ export class ActivoFormDialogComponent {
       ...(this.isEditMode ? {} : { estado: value.estado ?? undefined })
     };
 
-    showLoading();
-    this.isSaving.set(true);
-    const activo = this.activo;
-    const request$ = activo
-      ? this.activoService.actualizar(activo.identificadorTecnico, request)
-      : this.activoService.crear(request);
-
-    request$.pipe(finalize(() => { this.isSaving.set(false); showLoading(false); }), takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          void showNotifySuccess(this.isEditMode ? 'Activo actualizado correctamente.' : 'Activo creado correctamente.');
-          this.dialogRef.close(true);
-        },
-        error: (error: unknown) => showNotifyError(this.isEditMode ? 'No fue posible actualizar el activo.' : 'No fue posible crear el activo.', error)
-      });
+    this.dialogRef.close({
+      activoId: this.activo?.identificadorTecnico,
+      request
+    } satisfies ActivoFormDialogResult);
   }
 }

@@ -6,7 +6,7 @@ const TOAST_OPTIONS = {
   toast: true,
   position: 'bottom-end' as const,
   showConfirmButton: false,
-  timer: 2000,
+  timer: 3000,
   timerProgressBar: true,
 };
 

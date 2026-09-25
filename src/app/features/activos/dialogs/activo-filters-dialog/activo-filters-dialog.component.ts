@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ActivoFilters, EstadoActivo } from '../../../../core/models/activo.model';
+import { EstadoActivo } from '../../../../core/models/activo.model';
 import { Categoria } from '../../../../core/models/categoria.model';
 import { ESTADOS_ACTIVO, estadoDotClass, estadoLabel } from '../../../../shared/utils/estado.util';
 

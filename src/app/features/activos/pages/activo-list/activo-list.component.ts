@@ -28,10 +28,23 @@ import {
   estadoChipClass,
   estadoLabel,
 } from '../../../../shared/utils/estado.util';
-import { showNotifyError } from '../../../../shared/Utilities';
-import { ActivoFormDialogComponent } from '../../dialogs/activo-form-dialog/activo-form-dialog.component';
-import { ActivoFiltersDialogComponent, ActivoFiltersDialogValues } from '../../dialogs/activo-filters-dialog/activo-filters-dialog.component';
-import { CambioEstadoDialogComponent } from '../../dialogs/cambio-estado-dialog/cambio-estado-dialog.component';
+import {
+  showLoading,
+  showNotifyError,
+  showNotifySuccess,
+} from '../../../../shared/Utilities';
+import {
+  ActivoFormDialogComponent,
+  ActivoFormDialogResult,
+} from '../../dialogs/activo-form-dialog/activo-form-dialog.component';
+import {
+  ActivoFiltersDialogComponent,
+  ActivoFiltersDialogValues,
+} from '../../dialogs/activo-filters-dialog/activo-filters-dialog.component';
+import {
+  CambioEstadoDialogComponent,
+  CambioEstadoDialogResult,
+} from '../../dialogs/cambio-estado-dialog/cambio-estado-dialog.component';
 
 @Component({
   selector: 'app-activo-list',
@@ -98,24 +111,27 @@ export class ActivoListComponent {
     return this.authService.currentUser()?.role === 'ADMIN';
   }
   abrirFiltros(): void {
-    this.dialog.open(ActivoFiltersDialogComponent, {
-      width: '380px',
-      maxWidth: '100vw',
-      height: '100%',
-      maxHeight: '100vh',
-      position: { right: '0', top: '0' },
-      panelClass: 'filter-dialog-panel',
-      disableClose: true,
-      data: {
-        categorias: this.categorias(),
-        filtros: this.filtersForm.getRawValue() as ActivoFiltersDialogValues
-      }
-    }).afterClosed().subscribe((filters: ActivoFiltersDialogValues | undefined) => {
-      if (!filters) return;
-      this.filtersForm.patchValue(filters);
-      this.pageIndex = 0;
-      this.loadActivos();
-    });
+    this.dialog
+      .open(ActivoFiltersDialogComponent, {
+        width: '380px',
+        maxWidth: '100vw',
+        height: '100%',
+        maxHeight: '100vh',
+        position: { right: '0', top: '0' },
+        panelClass: 'filter-dialog-panel',
+        disableClose: true,
+        data: {
+          categorias: this.categorias(),
+          filtros: this.filtersForm.getRawValue() as ActivoFiltersDialogValues,
+        },
+      })
+      .afterClosed()
+      .subscribe((filters: ActivoFiltersDialogValues | undefined) => {
+        if (!filters) return;
+        this.filtersForm.patchValue(filters);
+        this.pageIndex = 0;
+        this.loadActivos();
+      });
   }
   changePage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
@@ -135,9 +151,11 @@ export class ActivoListComponent {
       ...DEFAULT_DIALOG_CONFIG,
       data: null,
     });
-    dialogRef.afterClosed().subscribe((changed) => {
-      if (changed) this.loadActivos();
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: ActivoFormDialogResult | undefined) => {
+        if (result) this.guardarActivo(result);
+      });
   }
 
   editarActivo(activo: Activo): void {
@@ -145,9 +163,11 @@ export class ActivoListComponent {
       ...DEFAULT_DIALOG_CONFIG,
       data: activo,
     });
-    dialogRef.afterClosed().subscribe((changed) => {
-      if (changed) this.loadActivos();
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: ActivoFormDialogResult | undefined) => {
+        if (result) this.guardarActivo(result);
+      });
   }
 
   cambiarEstado(activo: Activo): void {
@@ -156,9 +176,57 @@ export class ActivoListComponent {
       width: '480px',
       data: activo,
     });
-    dialogRef.afterClosed().subscribe((changed) => {
-      if (changed) this.loadActivos();
+    dialogRef
+      .afterClosed()
+      .subscribe((result: CambioEstadoDialogResult | undefined) => {
+        if (result) this.guardarCambioEstado(result);
+      });
+  }
+
+  private guardarActivo(result: ActivoFormDialogResult): void {
+    showLoading();
+    const request$ = result.activoId
+      ? this.activoService.actualizar(result.activoId, result.request)
+      : this.activoService.crear(result.request);
+
+    request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: () => {
+        showLoading(false);
+        this.loadActivos();
+        void showNotifySuccess(
+          result.activoId
+            ? 'Activo actualizado correctamente.'
+            : 'Activo creado correctamente.',
+        );
+      },
+      error: (error: unknown) => {
+        showLoading(false);
+        void showNotifyError(
+          result.activoId
+            ? 'No fue posible actualizar el activo.'
+            : 'No fue posible crear el activo.',
+          error,
+        );
+      },
     });
+  }
+
+  private guardarCambioEstado(result: CambioEstadoDialogResult): void {
+    showLoading();
+    this.activoService
+      .cambiarEstado(result.activoId, { estado: result.estado })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          showLoading(false);
+          this.loadActivos();
+          void showNotifySuccess('Estado actualizado correctamente.');
+        },
+        error: (error: unknown) => {
+          showLoading(false);
+          void showNotifyError('No fue posible actualizar el estado.', error);
+        },
+      });
   }
 
   private loadInitialData(): void {

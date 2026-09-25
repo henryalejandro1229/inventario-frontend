@@ -1,5 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -7,28 +6,45 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { finalize } from 'rxjs';
 import { Activo, EstadoActivo } from '../../../../core/models/activo.model';
-import { ActivoService } from '../../../../core/services/activo.service';
-import { estadoChipClass, estadoDotClass, estadoLabel, estadosDestinoValidos } from '../../../../shared/utils/estado.util';
-import { showLoading, showNotifyError, showNotifySuccess } from '../../../../shared/Utilities';
+import {
+  estadoChipClass,
+  estadoDotClass,
+  estadoLabel,
+  estadosDestinoValidos,
+} from '../../../../shared/utils/estado.util';
+
+export interface CambioEstadoDialogResult {
+  activoId: string;
+  estado: EstadoActivo;
+}
 
 @Component({
   selector: 'app-cambio-estado-dialog',
-  imports: [ReactiveFormsModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatSelectModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSelectModule,
+  ],
   templateUrl: './cambio-estado-dialog.component.html',
-  styleUrl: './cambio-estado-dialog.component.scss'
+  styleUrl: './cambio-estado-dialog.component.scss',
 })
 export class CambioEstadoDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<CambioEstadoDialogComponent>);
+  private readonly dialogRef = inject(
+    MatDialogRef<CambioEstadoDialogComponent>,
+  );
   private readonly formBuilder = inject(FormBuilder);
-  private readonly activoService = inject(ActivoService);
-  private readonly destroyRef = inject(DestroyRef);
   readonly activo = inject<Activo>(MAT_DIALOG_DATA);
 
-  readonly estadosDisponibles: EstadoActivo[] = estadosDestinoValidos(this.activo.estado);
-  readonly isSaving = signal(false);
-  readonly form = this.formBuilder.group({ nuevoEstado: [null as EstadoActivo | null] });
+  readonly estadosDisponibles: EstadoActivo[] = estadosDestinoValidos(
+    this.activo.estado,
+  );
+  readonly form = this.formBuilder.group({
+    nuevoEstado: [null as EstadoActivo | null],
+  });
 
   readonly estadoLabel = estadoLabel;
   readonly estadoDotClass = estadoDotClass;
@@ -42,16 +58,9 @@ export class CambioEstadoDialogComponent {
     const nuevoEstado = this.form.value.nuevoEstado;
     if (!nuevoEstado) return;
 
-    showLoading();
-    this.isSaving.set(true);
-    this.activoService.cambiarEstado(this.activo.identificadorTecnico, { estado: nuevoEstado })
-      .pipe(finalize(() => { this.isSaving.set(false); showLoading(false); }), takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          void showNotifySuccess('Estado actualizado correctamente.');
-          this.dialogRef.close(true);
-        },
-        error: (error: unknown) => showNotifyError('No fue posible actualizar el estado.', error)
-      });
+    this.dialogRef.close({
+      activoId: this.activo.identificadorTecnico,
+      estado: nuevoEstado,
+    } satisfies CambioEstadoDialogResult);
   }
 }

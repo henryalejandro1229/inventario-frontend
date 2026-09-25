@@ -1,6 +1,105 @@
-.login-page { min-height: 100%; display: grid; place-items: center; padding: 24px; background: linear-gradient(135deg, #e8f0fe, #f8f9fb); }
-.login-card { width: min(100%, 420px); padding: 12px; }
-mat-card-header { align-items: center; gap: 12px; margin-bottom: 20px; }
-mat-card-header mat-icon { color: #0b57d0; transform: scale(1.35); }
-form { display: grid; gap: 6px; }
-mat-form-field, button[type='submit'] { width: 100%; }
+.login-page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f4f7fa;
+}
+.login-card {
+  width: min(100%, 420px);
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: #fbfdff;
+  border: 1px solid #d9e4f0;
+  box-shadow: 0 6px 18px rgba(23, 54, 93, 0.1);
+}
+mat-card-header {
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+mat-card-header mat-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: #e8f1fb;
+  color: #214985;
+}
+mat-card-title {
+  color: #17365d;
+}
+mat-card-subtitle {
+  margin-top: 4px;
+  color: #5f6368;
+}
+.login-card mat-card-content {
+  display: flex;
+  flex: 1;
+}
+.login-card form {
+  display: grid;
+  width: 100%;
+  align-content: space-between;
+  gap: 16px;
+}
+.field {
+  display: grid;
+  gap: 7px;
+}
+.field label {
+  color: #214985;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.field input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid #b7cbe3;
+  border-radius: 8px;
+  outline: none;
+  background: #f7faff;
+  color: #1f1f1f;
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field input:focus {
+  border-color: #214985;
+  box-shadow: 0 0 0 3px rgba(33, 73, 133, 0.12);
+}
+.password-input {
+  position: relative;
+}
+.password-input input {
+  padding-right: 48px;
+}
+.password-input button {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  color: #5f6368;
+}
+.field-error {
+  color: #b3261e;
+  font-size: 0.78rem;
+}
+button[type="submit"] {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 8px;
+}
+
+@media (max-width: 599px) {
+  .login-page {
+    padding: 16px;
+  }
+  .login-card {
+    min-height: 390px;
+    padding: 16px;
+  }
+}

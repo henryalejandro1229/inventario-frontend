@@ -1,25 +1,59 @@
 <div class="modal-header">
   <h2 class="modal-title">Cambiar estado</h2>
-  <button mat-icon-button type="button" aria-label="Cerrar" (click)="cerrar()"><mat-icon>close</mat-icon></button>
+  <button mat-icon-button type="button" aria-label="Cerrar" (click)="cerrar()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 <div class="modal-body">
-  <p class="dialog-hint">Folio: <strong>{{ activo.folioInventario }}</strong></p>
-  <p class="dialog-hint">Estado actual: <mat-chip [class]="estadoChipClass(activo.estado)">{{ estadoLabel(activo.estado) }}</mat-chip></p>
+  <p class="dialog-hint">
+    Folio: <strong>{{ activo.folioInventario }}</strong>
+  </p>
+  <p class="dialog-hint">
+    Estado actual:
+    <mat-chip [class]="estadoChipClass(activo.estado)">{{
+      estadoLabel(activo.estado)
+    }}</mat-chip>
+  </p>
 
   @if (estadosDisponibles.length === 0) {
-    <p class="dialog-warning">Un activo dado de <strong>Baja</strong> no puede cambiar a ningún otro estado.</p>
+    <p class="dialog-warning">
+      Un activo dado de <strong>Baja</strong> no puede cambiar a ningún otro
+      estado.
+    </p>
   } @else {
     <form [formGroup]="form">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Nuevo estado</mat-label>
         <mat-select formControlName="nuevoEstado">
-          @for (estado of estadosDisponibles; track estado) { <mat-option [value]="estado"><span class="status-option"><span [class]="estadoDotClass(estado)"></span>{{ estadoLabel(estado) }}</span></mat-option> }
+          @for (estado of estadosDisponibles; track estado) {
+            <mat-option [value]="estado"
+              ><span class="status-option"
+                ><span [class]="estadoDotClass(estado)"></span
+                >{{ estadoLabel(estado) }}</span
+              ></mat-option
+            >
+          }
         </mat-select>
       </mat-form-field>
     </form>
   }
 </div>
 <div class="modal-footer">
-  <button mat-button type="button" class="modal-button modal-button-secondary" (click)="cerrar()">Cancelar</button>
-  <button mat-flat-button type="button" class="modal-button modal-button-primary" [disabled]="!form.value.nuevoEstado || isSaving()" (click)="guardar()">{{ isSaving() ? 'Guardando...' : 'Guardar' }}</button>
+  <button
+    mat-button
+    type="button"
+    class="modal-button modal-button-secondary"
+    (click)="cerrar()"
+  >
+    Cancelar
+  </button>
+  <button
+    mat-flat-button
+    type="button"
+    class="modal-button modal-button-primary"
+    [disabled]="!form.value.nuevoEstado"
+    (click)="guardar()"
+  >
+    Guardar
+  </button>
 </div>

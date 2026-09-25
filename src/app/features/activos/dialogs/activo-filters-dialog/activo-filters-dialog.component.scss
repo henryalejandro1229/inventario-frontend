@@ -18,6 +18,7 @@
 }
 .modal-body {
   display: grid;
+  align-content: start;
   gap: 8px;
   flex: 1;
   overflow-y: auto;
@@ -31,6 +32,39 @@
 }
 .full-width {
   width: 100%;
+}
+.modal-body > .full-width {
+  align-self: start;
+}
+.cost-range {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+.range-subtitle {
+  color: #214985;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+.cost-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.cost-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #b7c2cf;
+  border-radius: 8px;
+  outline: none;
+  background: #f7faff;
+  color: #1f1f1f;
+  font: inherit;
+}
+.cost-input:focus {
+  border-color: #214985;
+  box-shadow: 0 0 0 3px rgba(33, 73, 133, 0.12);
 }
 .modal-footer {
   flex-wrap: wrap;
@@ -53,6 +87,9 @@
   }
   .modal-footer {
     padding: 14px 20px 16px;
+  }
+  .cost-fields {
+    gap: 8px;
   }
   .clear-button,
   .apply-button {

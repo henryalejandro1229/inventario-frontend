@@ -4,7 +4,12 @@
       <mat-icon>tune</mat-icon>
       <h2 class="modal-title">Configura los filtros</h2>
     </div>
-    <button mat-icon-button type="button" aria-label="Cerrar filtros" (click)="cerrar()">
+    <button
+      mat-icon-button
+      type="button"
+      aria-label="Cerrar filtros"
+      (click)="cerrar()"
+    >
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -26,7 +31,9 @@
         <mat-select formControlName="categoriaId">
           <mat-option [value]="null">Todas</mat-option>
           @for (categoria of data.categorias; track categoria.id) {
-            <mat-option [value]="categoria.id">{{ categoria.nombre }}</mat-option>
+            <mat-option [value]="categoria.id">{{
+              categoria.nombre
+            }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -36,25 +43,35 @@
         <mat-select formControlName="estado">
           <mat-option [value]="null">Todos</mat-option>
           @for (estado of estados; track estado) {
-            <mat-option [value]="estado"><span class="status-option"><span [class]="estadoDotClass(estado)"></span>{{ estadoLabel(estado) }}</span></mat-option>
+            <mat-option [value]="estado"
+              ><span class="status-option"
+                ><span [class]="estadoDotClass(estado)"></span
+                >{{ estadoLabel(estado) }}</span
+              ></mat-option
+            >
           }
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Costo mínimo</mat-label>
-        <input matInput type="number" min="0" formControlName="costoMin" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Costo máximo</mat-label>
-        <input matInput type="number" min="0" formControlName="costoMax" />
-      </mat-form-field>
+      <div class="cost-range">
+        <span class="range-subtitle">Rango de costo</span>
+        <div class="cost-fields">
+          <input class="cost-input" type="number" min="0" formControlName="costoMin" placeholder="Mínimo" />
+          <input class="cost-input" type="number" min="0" formControlName="costoMax" placeholder="Máximo" />
+        </div>
+      </div>
     </div>
 
     <div class="modal-footer">
-      <button mat-button type="button" class="clear-button" (click)="limpiar()">Limpiar filtros</button>
-      <button mat-flat-button color="primary" type="submit" class="apply-button">
+      <button mat-button type="button" class="clear-button" (click)="limpiar()">
+        Limpiar filtros
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="apply-button"
+      >
         <mat-icon>filter_alt</mat-icon>Aplicar filtros
       </button>
     </div>
