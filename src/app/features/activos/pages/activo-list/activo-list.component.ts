@@ -5,11 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -30,11 +28,9 @@ import {
   estadoChipClass,
   estadoLabel,
 } from '../../../../shared/utils/estado.util';
-import {
-  showLoading,
-  showNotifyError,
-} from '../../../../shared/Utilities';
+import { showNotifyError } from '../../../../shared/Utilities';
 import { ActivoFormDialogComponent } from '../../dialogs/activo-form-dialog/activo-form-dialog.component';
+import { ActivoFiltersDialogComponent, ActivoFiltersDialogValues } from '../../dialogs/activo-filters-dialog/activo-filters-dialog.component';
 import { CambioEstadoDialogComponent } from '../../dialogs/cambio-estado-dialog/cambio-estado-dialog.component';
 
 @Component({
@@ -46,11 +42,9 @@ import { CambioEstadoDialogComponent } from '../../dialogs/cambio-estado-dialog/
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
     MatPaginatorModule,
-    MatSelectModule,
+    MatProgressBarModule,
     MatSortModule,
     MatTableModule,
     MatTooltipModule,
@@ -103,14 +97,25 @@ export class ActivoListComponent {
   isAdmin(): boolean {
     return this.authService.currentUser()?.role === 'ADMIN';
   }
-  buscar(): void {
-    this.pageIndex = 0;
-    this.loadActivos();
-  }
-  limpiar(): void {
-    this.filtersForm.reset();
-    this.pageIndex = 0;
-    this.loadActivos();
+  abrirFiltros(): void {
+    this.dialog.open(ActivoFiltersDialogComponent, {
+      width: '380px',
+      maxWidth: '100vw',
+      height: '100%',
+      maxHeight: '100vh',
+      position: { right: '0', top: '0' },
+      panelClass: 'filter-dialog-panel',
+      disableClose: true,
+      data: {
+        categorias: this.categorias(),
+        filtros: this.filtersForm.getRawValue() as ActivoFiltersDialogValues
+      }
+    }).afterClosed().subscribe((filters: ActivoFiltersDialogValues | undefined) => {
+      if (!filters) return;
+      this.filtersForm.patchValue(filters);
+      this.pageIndex = 0;
+      this.loadActivos();
+    });
   }
   changePage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
@@ -157,7 +162,6 @@ export class ActivoListComponent {
   }
 
   private loadInitialData(): void {
-    showLoading();
     this.isLoading.set(true);
     forkJoin({
       activos: this.activoService.obtenerActivos(this.requestFilters()),
@@ -166,7 +170,6 @@ export class ActivoListComponent {
       .pipe(
         finalize(() => {
           this.isLoading.set(false);
-          showLoading(false);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -181,14 +184,12 @@ export class ActivoListComponent {
   }
 
   private loadActivos(): void {
-    showLoading();
     this.isLoading.set(true);
     this.activoService
       .obtenerActivos(this.requestFilters())
       .pipe(
         finalize(() => {
           this.isLoading.set(false);
-          showLoading(false);
         }),
         takeUntilDestroyed(this.destroyRef),
       )

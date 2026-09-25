@@ -4,73 +4,35 @@
       <h1>Activos tecnológicos</h1>
       <p>Consulta y localiza los activos registrados.</p>
     </div>
-    @if (isAdmin()) {
+    <div class="page-actions">
       <button
-        mat-flat-button
+        mat-stroked-button
         color="primary"
         type="button"
-        (click)="nuevoActivo()"
+        (click)="abrirFiltros()"
       >
-        <mat-icon>add</mat-icon>Nuevo activo
+        <mat-icon>tune</mat-icon>Filtros
       </button>
-    }
+      @if (isAdmin()) {
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="nuevoActivo()"
+        >
+          <mat-icon>add</mat-icon>Nuevo activo
+        </button>
+      }
+    </div>
   </div>
 
-  <mat-card class="filters-card">
-    <mat-card-content>
-      <form
-        [formGroup]="filtersForm"
-        (ngSubmit)="buscar()"
-        class="filters-grid"
-      >
-        <mat-form-field appearance="outline"
-          ><mat-label>Número de serie</mat-label
-          ><input matInput formControlName="numeroSerie"
-        /></mat-form-field>
-        <mat-form-field appearance="outline"
-          ><mat-label>Marca / modelo</mat-label
-          ><input matInput formControlName="marcaModelo"
-        /></mat-form-field>
-        <mat-form-field appearance="outline"
-          ><mat-label>Categoría</mat-label
-          ><mat-select formControlName="categoriaId"
-            ><mat-option [value]="null">Todas</mat-option>
-            @for (categoria of categorias(); track categoria.id) {
-              <mat-option [value]="categoria.id">{{
-                categoria.nombre
-              }}</mat-option>
-            }
-          </mat-select></mat-form-field
-        >
-        <mat-form-field appearance="outline"
-          ><mat-label>Estado</mat-label
-          ><mat-select formControlName="estado"
-            ><mat-option [value]="null">Todos</mat-option>
-            @for (estado of estados; track estado) {
-              <mat-option [value]="estado">{{
-                estadoLabel(estado)
-              }}</mat-option>
-            }
-          </mat-select></mat-form-field
-        >
-        <mat-form-field appearance="outline"
-          ><mat-label>Costo mínimo</mat-label
-          ><input matInput type="number" min="0" formControlName="costoMin"
-        /></mat-form-field>
-        <mat-form-field appearance="outline"
-          ><mat-label>Costo máximo</mat-label
-          ><input matInput type="number" min="0" formControlName="costoMax"
-        /></mat-form-field>
-        <div class="filter-actions">
-          <button mat-flat-button color="primary" type="submit">
-            <mat-icon>search</mat-icon>Buscar</button
-          ><button mat-button type="button" (click)="limpiar()">
-            Limpiar filtros
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  @if (isLoading()) {
+    <mat-progress-bar
+      class="table-loading-bar"
+      mode="buffer"
+      aria-label="Cargando activos"
+    />
+  }
 
   <mat-card class="table-card">
     @if (!isLoading() && activos().length === 0) {
@@ -149,14 +111,15 @@
               {{ activo.fechaIngreso | date: "dd/MM/yyyy" }}
             </td></ng-container
           >
-          <ng-container matColumnDef="acciones"
-            ><th mat-header-cell *matHeaderCellDef stickyEnd>Acciones</th>
-            <td mat-cell *matCellDef="let activo" stickyEnd>
+          <ng-container matColumnDef="acciones" stickyEnd
+            ><th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let activo">
               @if (isAdmin()) {
                 <button
                   mat-icon-button
                   aria-label="Editar activo"
                   matTooltip="Editar"
+                  color="primary"
                   (click)="editarActivo(activo)"
                 >
                   <mat-icon>edit</mat-icon></button

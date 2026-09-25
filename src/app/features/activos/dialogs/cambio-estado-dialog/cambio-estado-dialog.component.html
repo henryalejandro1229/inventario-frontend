@@ -13,7 +13,7 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Nuevo estado</mat-label>
         <mat-select formControlName="nuevoEstado">
-          @for (estado of estadosDisponibles; track estado) { <mat-option [value]="estado">{{ estadoLabel(estado) }}</mat-option> }
+          @for (estado of estadosDisponibles; track estado) { <mat-option [value]="estado"><span class="status-option"><span [class]="estadoDotClass(estado)"></span>{{ estadoLabel(estado) }}</span></mat-option> }
         </mat-select>
       </mat-form-field>
     </form>

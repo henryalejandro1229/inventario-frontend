@@ -2,15 +2,16 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { finalize } from 'rxjs';
 import { Categoria } from '../../core/models/categoria.model';
 import { CategoriaService } from '../../core/services/categoria.service';
-import { showLoading, showNotifyError } from '../../shared/Utilities';
+import { showNotifyError } from '../../shared/Utilities';
 
 @Component({
   selector: 'app-categorias',
-  imports: [MatCardModule, MatIconModule, MatTableModule],
+  imports: [MatCardModule, MatIconModule, MatProgressBarModule, MatTableModule],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.scss'
 })
@@ -25,10 +26,9 @@ export class CategoriasComponent {
   constructor() { this.loadCategorias(); }
 
   private loadCategorias(): void {
-    showLoading();
     this.isLoading.set(true);
     this.categoriaService.obtenerCategorias()
-      .pipe(finalize(() => { this.isLoading.set(false); showLoading(false); }), takeUntilDestroyed(this.destroyRef))
+      .pipe(finalize(() => this.isLoading.set(false)), takeUntilDestroyed(this.destroyRef))
       .subscribe({ next: (categorias) => this.categorias.set(categorias), error: (error: unknown) => showNotifyError('No fue posible cargar las categorías.', error) });
   }
 }

@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { finalize } from 'rxjs';
 import { Activo, EstadoActivo } from '../../../../core/models/activo.model';
 import { ActivoService } from '../../../../core/services/activo.service';
-import { estadoChipClass, estadoLabel, estadosDestinoValidos } from '../../../../shared/utils/estado.util';
+import { estadoChipClass, estadoDotClass, estadoLabel, estadosDestinoValidos } from '../../../../shared/utils/estado.util';
 import { showLoading, showNotifyError, showNotifySuccess } from '../../../../shared/Utilities';
 
 @Component({
@@ -31,6 +31,7 @@ export class CambioEstadoDialogComponent {
   readonly form = this.formBuilder.group({ nuevoEstado: [null as EstadoActivo | null] });
 
   readonly estadoLabel = estadoLabel;
+  readonly estadoDotClass = estadoDotClass;
   readonly estadoChipClass = estadoChipClass;
 
   cerrar(): void {

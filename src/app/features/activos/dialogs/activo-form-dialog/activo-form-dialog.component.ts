@@ -13,7 +13,7 @@ import { Activo, ActivoRequest, EstadoActivo } from '../../../../core/models/act
 import { Categoria } from '../../../../core/models/categoria.model';
 import { ActivoService } from '../../../../core/services/activo.service';
 import { CategoriaService } from '../../../../core/services/categoria.service';
-import { ESTADOS_ACTIVO, estadoLabel } from '../../../../shared/utils/estado.util';
+import { ESTADOS_ACTIVO, estadoDotClass, estadoLabel } from '../../../../shared/utils/estado.util';
 import { showLoading, showNotifyError, showNotifySuccess } from '../../../../shared/Utilities';
 
 @Component({
@@ -34,6 +34,7 @@ export class ActivoFormDialogComponent {
   readonly isSaving = signal(false);
   readonly categorias = signal<Categoria[]>([]);
   readonly estadosIniciales: EstadoActivo[] = ESTADOS_ACTIVO;
+  readonly estadoDotClass = estadoDotClass;
   readonly estadoLabel = estadoLabel;
 
   readonly form = this.formBuilder.group({

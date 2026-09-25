@@ -10,6 +10,10 @@ export function estadoChipClass(estado: EstadoActivo): string {
   return `state-chip state-${estado.toLowerCase()}`;
 }
 
+export function estadoDotClass(estado: EstadoActivo): string {
+  return `status-dot status-${estado.toLowerCase()}`;
+}
+
 /**
  * Refleja la única regla de negocio real del backend: un activo en BAJA no puede
  * volver a un estado operativo. Es solo una ayuda visual; el backend sigue validando.

@@ -9,3 +9,43 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: #1f1
 .table-container { width: 100%; max-width: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
 .responsive-table { width: 100%; min-width: 640px; }
 .responsive-table th, .responsive-table td { white-space: nowrap; }
+
+.filter-dialog-panel .mat-mdc-dialog-surface { padding: 0; border-radius: 16px 0 0 16px; }
+
+.status-option { display: inline-flex; align-items: center; gap: 10px; }
+.status-dot { display: inline-block; width: 12px; height: 12px; flex: 0 0 12px; border-radius: 50%; }
+.status-disponible { background: #2f8f5b; }
+.status-asignado { background: #2f73b7; }
+.status-en_mantenimiento { background: #b7791f; }
+.status-baja { background: #b74343; }
+
+.state-chip {
+	--mdc-chip-elevated-container-color: var(--chip-background);
+	--mdc-chip-outline-width: 0px;
+	--mdc-chip-outline-color: transparent;
+	--mdc-chip-label-text-color: #fff;
+	display: inline-flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 0 12px;
+	border: 0;
+	border-radius: 999px;
+	color: #fff;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+.state-chip .mdc-evolution-chip__action--primary {
+	background-color: var(--chip-background) !important;
+	border: 0 !important;
+	border-radius: 999px !important;
+}
+.state-chip .mdc-evolution-chip__action--primary::before {
+	border: 0 !important;
+	box-shadow: none !important;
+}
+.state-chip .mdc-evolution-chip__text-label { color: #fff !important; }
+.state-chip.state-disponible { --chip-background: #2f8f5b; background: var(--chip-background); }
+.state-chip.state-asignado { --chip-background: #2f73b7; background: var(--chip-background); }
+.state-chip.state-en_mantenimiento { --chip-background: #b7791f; background: var(--chip-background); }
+.state-chip.state-baja { --chip-background: #b74343; background: var(--chip-background); }
