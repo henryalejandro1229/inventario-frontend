@@ -12,7 +12,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../../../core/services/auth.service';
 import { NavigationItem } from '../../models/navigation-item.model';
-import { showNotifySuccess } from '../../Utilities';
+import { showModalConfirmation, showNotifySuccess } from '../../Utilities';
 
 @Component({
   selector: 'app-authenticated-layout',
@@ -65,7 +65,13 @@ export class AuthenticatedLayoutComponent {
       !!this.currentUser() && item.roles.includes(this.currentUser()!.role)
     );
   }
-  logout(): void {
+  async logout(): Promise<void> {
+    const result = await showModalConfirmation(
+      '¿Cerrar sesión?',
+      '¿Está seguro de que desea cerrar su sesión?',
+    );
+    if (!result.isConfirmed) return;
+
     this.authService.logout();
     void this.router.navigate(['/login']).then(() => {
       void showNotifySuccess('Sesión cerrada correctamente.');
