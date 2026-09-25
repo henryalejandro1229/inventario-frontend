@@ -47,6 +47,8 @@
           mat-table
           [dataSource]="activos()"
           matSort
+          matSortActive="fechaIngreso"
+          matSortDirection="desc"
           (matSortChange)="changeSort($event)"
           class="responsive-table"
         >
